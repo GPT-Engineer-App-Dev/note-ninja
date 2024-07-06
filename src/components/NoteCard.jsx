@@ -4,7 +4,7 @@ import { Edit, Trash2 } from "lucide-react";
 
 const NoteCard = ({ note, onEdit, onDelete }) => {
   return (
-    <Card>
+    <Card style={{ backgroundColor: note.color || '#ffffff' }}>
       <CardHeader>
         <CardTitle>{note.title}</CardTitle>
       </CardHeader>
