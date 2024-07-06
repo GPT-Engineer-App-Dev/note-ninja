@@ -15,21 +15,25 @@ const AddEditNoteModal = ({ isOpen, onClose, onSave, note }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [color, setColor] = useState("#ffffff");
+  const [tags, setTags] = useState("");
 
   useEffect(() => {
     if (note) {
       setTitle(note.title);
       setContent(note.content);
       setColor(note.color || "#ffffff");
+      setTags(note.tags ? note.tags.join(", ") : "");
     } else {
       setTitle("");
       setContent("");
       setColor("#ffffff");
+      setTags("");
     }
   }, [note]);
 
   const handleSave = () => {
-    onSave({ id: note?.id, title, content, color });
+    const tagArray = tags.split(",").map(tag => tag.trim()).filter(tag => tag !== "");
+    onSave({ id: note?.id, title, content, color, tags: tagArray });
     onClose();
   };
 
@@ -75,6 +79,18 @@ const AddEditNoteModal = ({ isOpen, onClose, onSave, note }) => {
               value={color}
               onChange={(e) => setColor(e.target.value)}
               className="col-span-3 h-10"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="tags" className="text-right">
+              Tags
+            </Label>
+            <Input
+              id="tags"
+              placeholder="Enter tags, separated by commas"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              className="col-span-3"
             />
           </div>
         </div>
